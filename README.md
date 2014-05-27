@@ -42,6 +42,9 @@ Options:
   -k SHARDKEY, --key=SHARDKEY
                         Shard key name (default _id)
   -f, --force           Force by dropping database if exists in destination
+```
+
+```bash
 
 example: 
 python shard_single_database.py --source secondary_replica_server:27017 --dest sharded_mongos_server:27017 --force --db testdb1 --key shardKey
@@ -60,8 +63,27 @@ Options:
   -c COLLECTIONS, --collections=COLLECTIONS
                         List of collections to be validates (default all)
 
+```
+
+```bash
 example:
 python validate_db.py --source secondary_replica_server:27017 --dest sharded_mongos_server:27017 -c "test1 test2"
+```
+
+## sharding/shard_all_collections.py
+Shard all collections in the server
+
+```bash
+Usage: shard_all_collections.py [options]
+
+Options:
+  -h, --help  show this help message and exit
+  --host=SRC  host details
+```
+
+```bash
+example:
+python shard_all_collections --host sharded_mongos_server:27017
 ```
 
 
