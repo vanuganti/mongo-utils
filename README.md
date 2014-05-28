@@ -23,7 +23,9 @@ Options:
   -k SHARDKEY, --key=SHARDKEY
                         Shard key name (default _id)
   -f, --force           Force by dropping database if exists in destination
+```
 
+```bash
 example:
 python shard_databases.py --source secondary_replica_server:27017 --dest sharded_mongos_server:27017 --force --key _id
 ```
