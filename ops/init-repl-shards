@@ -1,0 +1,48 @@
+#!/bin/bash
+
+sets="1 2 3 4"
+
+mkdir -p repl
+
+for rs in $sets
+do
+  echo "writing rs config files for rs${rs}"
+  echo "cfg={
+    _id: 'rs${rs}'
+    members: [
+       { _id: 0, host: sv5mongodbs${rs}-1 },
+       { _id: 1, host: sv5mongodbs${rs}-2 },
+       { _id: 2, host: sv5mongodbs${rs}-3 },
+    ]
+  }
+  rs.initialize(cfg)" > repl/repl${rs}.js
+  sleep 5
+done
+
+echo "sleeping for 5 secs"
+sleep 5
+
+echo "initing sharding"
+for rs in $sets
+do
+    echo "adding shard rs${rs}"
+    mongo --host mongos03 --port 27017 --eval "sh.addShard('sv5mongodbs${rs}-1:27018')"
+done
+
+echo "sleep 5"
+echo "shard status"
+echo "sh.status()" | mongo --host mongos03 --port 27017
+
+for rs in $sets
+do
+    echo "setting rs${rs}"
+    mongo --host mongodbs${rs}-1 --port 27018 < repl/repl${rs}.js
+    echo "rs${rs} done"
+done
+
+
+
+
+
+
+

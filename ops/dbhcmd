@@ -1,0 +1,10 @@
+#!/bin/bash
+source ./servers.conf
+
+for s in $DB_SERVERS
+do
+    echo "------- $s -------"
+    ssh $s "$*"
+done
+
+
